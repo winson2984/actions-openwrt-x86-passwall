@@ -14,10 +14,10 @@ index 03bfacb620..de3192c654 100644
  #src-git targets https://github.com/openwrt/targets.git
  #src-git management https://github.com/openwrt-management/packages.git
 diff --git a/include/target.mk b/include/target.mk
-index 7526224972..acfff20b34 100644
+index 7526224972..2518362d3f 100644
 --- a/include/target.mk
 +++ b/include/target.mk
-@@ -13,12 +13,14 @@ DEVICE_TYPE?=router
+@@ -13,12 +13,15 @@ DEVICE_TYPE?=router
  DEFAULT_PACKAGES:=\
  	base-files \
  	ca-bundle \
@@ -34,7 +34,7 @@ index 7526224972..acfff20b34 100644
  	mtd \
  	netifd \
  	opkg \
-@@ -43,15 +45,21 @@ DEFAULT_PACKAGES.nas:=\
+@@ -43,15 +46,21 @@ DEFAULT_PACKAGES.nas:=\
  	mdadm
  # For router targets
  DEFAULT_PACKAGES.router:=\
