@@ -1,0 +1,73 @@
+diff --git a/feeds.conf.default b/feeds.conf.default
+index 03bfacb620..de3192c654 100644
+--- a/feeds.conf.default
++++ b/feeds.conf.default
+@@ -1,8 +1,8 @@
+ src-git packages https://git.openwrt.org/feed/packages.git
+ src-git luci https://git.openwrt.org/project/luci.git
+ src-git routing https://git.openwrt.org/feed/routing.git
+-src-git telephony https://git.openwrt.org/feed/telephony.git
+-src-git freifunk https://github.com/freifunk/openwrt-packages.git
++#src-git telephony https://git.openwrt.org/feed/telephony.git
++#src-git freifunk https://github.com/freifunk/openwrt-packages.git
+ #src-git video https://github.com/openwrt/video.git
+ #src-git targets https://github.com/openwrt/targets.git
+ #src-git management https://github.com/openwrt-management/packages.git
+diff --git a/include/target.mk b/include/target.mk
+index 7526224972..acfff20b34 100644
+--- a/include/target.mk
++++ b/include/target.mk
+@@ -13,12 +13,14 @@ DEVICE_TYPE?=router
+ DEFAULT_PACKAGES:=\
+ 	base-files \
+ 	ca-bundle \
++  curl \
++  default-settings \
+ 	dropbear \
+ 	fstools \
+ 	libc \
+ 	libgcc \
+-	libustream-wolfssl \
++	libustream-openssl \
+ 	logd \
++  luci \
+ 	mtd \
+ 	netifd \
+ 	opkg \
+@@ -43,15 +45,21 @@ DEFAULT_PACKAGES.nas:=\
+ 	mdadm
+ # For router targets
+ DEFAULT_PACKAGES.router:=\
+-	dnsmasq \
++	dnsmasq-full \
+ 	firewall \
+ 	ip6tables \
++  ip-full \
+ 	iptables \
++  iptables-mod-ipsec \
++  iptables-mod-tproxy \
++  kmod-ipt-nat6 \
+ 	kmod-ipt-offload \
++  kmod-tun \
+ 	odhcp6c \
+ 	odhcpd-ipv6only \
+ 	ppp \
+-	ppp-mod-pppoe
++	ppp-mod-pppoe \
++  resolveip
+ 
+ ifneq ($(DUMP),)
+   all: dumpinfo
+diff --git a/package/base-files/files/etc/rc.local b/package/base-files/files/etc/rc.local
+index 56394773c3..1afeecc0db 100644
+--- a/package/base-files/files/etc/rc.local
++++ b/package/base-files/files/etc/rc.local
+@@ -1,4 +1,8 @@
+ # Put your custom commands here that should be executed once
+ # the system init finished. By default this file does nothing.
+ 
++# performance governor
++echo performance > /sys/devices/system/cpu/cpufreq/policy0/scaling_governor
++echo performance > /sys/devices/system/cpu/cpufreq/policy1/scaling_governor
++
+ exit 0
