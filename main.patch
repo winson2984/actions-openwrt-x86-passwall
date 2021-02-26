@@ -1,18 +1,3 @@
-diff --git a/feeds.conf.default b/feeds.conf.default
-index 03bfacb620..de3192c654 100644
---- a/feeds.conf.default
-+++ b/feeds.conf.default
-@@ -1,8 +1,8 @@
- src-git packages https://git.openwrt.org/feed/packages.git
- src-git luci https://git.openwrt.org/project/luci.git
- src-git routing https://git.openwrt.org/feed/routing.git
--src-git telephony https://git.openwrt.org/feed/telephony.git
--src-git freifunk https://github.com/freifunk/openwrt-packages.git
-+#src-git telephony https://git.openwrt.org/feed/telephony.git
-+#src-git freifunk https://github.com/freifunk/openwrt-packages.git
- #src-git video https://github.com/openwrt/video.git
- #src-git targets https://github.com/openwrt/targets.git
- #src-git management https://github.com/openwrt-management/packages.git
 diff --git a/include/target.mk b/include/target.mk
 index 7526224972..2518362d3f 100644
 --- a/include/target.mk
@@ -71,3 +56,23 @@ index 56394773c3..1afeecc0db 100644
 +echo performance > /sys/devices/system/cpu/cpufreq/policy1/scaling_governor
 +
  exit 0
+diff --git a/tools/Makefile b/tools/Makefile
+index a2665dbc9a..91498c8eb7 100644
+--- a/tools/Makefile
++++ b/tools/Makefile
+@@ -26,6 +26,7 @@ tools-y += e2fsprogs fakeroot findutils firmware-utils flex gengetopt
+ tools-y += libressl libtool lzma m4 make-ext4fs missing-macros mkimage
+ tools-y += mklibs mm-macros mtd-utils mtools padjffs2 patch-image
+ tools-y += patchelf pkgconf quilt squashfskit4 sstrip zip zlib zstd
++tools-y += ucl upx
+ tools-$(BUILD_B43_TOOLS) += b43-tools
+ tools-$(BUILD_ISL) += isl
+ tools-$(BUILD_TOOLCHAIN) += expat gmp libelf mpc mpfr
+@@ -37,6 +38,7 @@ tools-$(CONFIG_USES_MINOR) += kernel2minor
+ tools-$(CONFIG_USE_SPARSE) += sparse
+ 
+ # builddir dependencies
++$(curdir)/upx/compile := $(curdir)/ucl/compile
+ $(curdir)/autoconf/compile := $(curdir)/m4/compile
+ $(curdir)/automake/compile := $(curdir)/m4/compile $(curdir)/autoconf/compile $(curdir)/pkgconf/compile $(curdir)/xz/compile
+ $(curdir)/b43-tools/compile := $(curdir)/bison/compile
